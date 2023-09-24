@@ -159,7 +159,7 @@
                 <div class="andOrDiv">
                     <span class="andOrButtonLabel">AND</span>
                     <label class="switch">
-                        <input type="checkbox" id="andor" onchange="updateImageBrowser()" />
+                        <input type="checkbox" id="andor" onchange="updateImageBrowser()" checked/>
                         <span class="slider round"></span>
                     </label>
                     <span class="andOrButtonLabel">OR</span>
@@ -12825,9 +12825,9 @@
 
             var jsonToDisplay = {
                 "Character": imagePath["character"],
-                "Dimension": imagePath["width"] + "X" + imagePath["height"],
+                "Dimension": imagePath["width"] + "x" + imagePath["height"],
                 "File": imagePath["fileName"],
-                "Prompt": imagePath["positive"],
+                "Prompt": imagePath["prompt"],
                 "Negative": imagePath["negative"],
                 "Settings": imagePath["settings"]
             };
