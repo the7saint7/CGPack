@@ -5,7 +5,7 @@
         body {
             overflow-y: hidden;
             background-color: #0b0f19;
-            color: #fff;
+            color: #eeeeee;
         }
 
         /* The switch - the box around the slider */
@@ -76,30 +76,6 @@
             display: flex;
         }
 
-        .main-div {
-            padding: 5px;
-            width: 100%;
-            height: 99vh;
-            overflow-y: scroll;
-            border-radius: 1px;
-            border: #374151;
-            border-style: solid;
-        }
-
-        .bottom-div {
-            margin-top: 10px;
-            height: 150px;
-            width: 100%;
-            overflow: auto;
-            padding-right: 8px;
-            padding-top: 5px;
-            border: #374151;
-            border-radius: 1px;
-            border: #374151;
-            border-style: solid;
-            display: none;
-        }
-
         .image-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -149,12 +125,6 @@
             display: flex;
         }
 
-        .topMainBrowser {
-            width: 100%;
-            margin-left: 5px;
-            margin-right: 10px;
-        }
-
         .andOrDiv {
             display: flex;
             align-items: center;
@@ -166,6 +136,65 @@
             font-size: large;
             font-weight: bold;
         }
+
+
+        .topMainBrowser {
+            width: 100%;
+            height: 99vh;
+            display: flex;
+            flex-flow: column;
+            margin-left: 5px;
+            margin-right: 10px;
+        }
+
+        .main-div {
+            padding: 5px;
+            width: 100%;
+            /* height: 99vh; */
+            flex-grow: 1;
+            overflow-y: scroll;
+            border-radius: 1px;
+            border: #374151;
+            border-style: solid;
+        }
+
+        .bottom-div {
+            margin-top: 10px;
+            /* height: 150px; */
+            flex-grow: 0;
+            width: 100%;
+            overflow: visible;
+            padding-right: 8px;
+            padding-top: 5px;
+            border: #374151;
+            border-radius: 1px;
+            border: #374151;
+            border-style: solid;
+            display: none;
+            position: relative;
+        }
+        .closeX {
+            color: #FFF;
+            font: 14px/100% arial, sans-serif;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            text-decoration: none;
+            text-shadow: 0 1px 0 #999;
+            /*content: '✖'; /* UTF-8 symbol */
+            cursor: pointer;
+        }
+
+        .prompt-positive {
+            color: #00FFFF;
+        }
+        .prompt-negative {
+            color: #FF00FF;
+        }
+        .prompt-settings {
+            color: #FFFF00;
+        }
+    
     </style>
 </head>
 
@@ -197,13 +226,8 @@
             </div>
         </div>
         <div class="topMainBrowser">
-            <div class="main-div" id="browser-parent">
-                <div id="browser" class="image-grid"></div>
-            </div>
+            <div class="main-div image-grid" id="browser"></div>
             <div class="bottom-div" id="prompt-info"></div>
-            <!-- Bottom div with small space at the bottom -->
-            <!-- <h2>Bottom Div</h2> -->
-            <!-- Content for the bottom div -->
         </div>
     </div>
 </body>
@@ -13780,18 +13804,21 @@
 
         // TODO: Pretyfy the prompt-info
 
-        var jsonToDisplay = {
-            "Character": imagePath["character"],
-            "Dimension": imagePath["width"] + "x" + imagePath["height"],
-            "File": imagePath["fileName"],
-            "Prompt": imagePath["prompt"],
-            "Negative": imagePath["negative"],
-            "Settings": imagePath["settings"]
-        };
+        var jsonToDisplay = 
+            "Character: " + imagePath["character"] + "<br>" +
+            "Dimension: " + imagePath["width"] + "x" + imagePath["height"] + "<br>" +
+            "File: " + imagePath["fileName"] + "<br>" +
+            "Prompt: " + "<span class='prompt-positive'>" + imagePath["prompt"] + "</span>" + "<br>" +
+            "Negative: " + "<span class='prompt-negative'>" + imagePath["negative"] + "</span>" + "<br>" +
+            "Settings: " + "<span class='prompt-settings'>" + imagePath["settings"] + "</span>";
 
-        document.getElementById("prompt-info").innerText = JSON.stringify(jsonToDisplay, null, 2);
+        document.getElementById("prompt-info").innerHTML = jsonToDisplay;
+        document.getElementById("prompt-info").innerHTML += "<div class=\"closeX\" onclick=\"closePrompt()\">✖</div>";
         document.getElementById("prompt-info").style.display = "block";
-        document.getElementById("browser-parent").style.height = "85vh";
+    }
+
+    function closePrompt() {
+        document.getElementById("prompt-info").style.display = "none";
     }
 
     function toggleCharacter(checkbox) {
